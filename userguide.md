@@ -1,7 +1,7 @@
 # DAVIS User Guide
 
 <p align="center">
-  <img src="DAVIS_screen_261010.png" alt="DAVIS main window" width="640">
+  <img src="DAVIS_screen_261011.png" alt="DAVIS main window" width="640">
 </p>
 
 DAVIS (**D**ata **A**nalytics **V**isual **I**nterface for **S**ystem codes) reads **RELAP5/MOD3.x** printed output files and CSV data, and lets you plot, animate and export the results. This guide describes every window and control. The same text is available in the program under **Info → User guide**.
@@ -217,7 +217,8 @@ CSV2D:[j]MassFlow,(101-010000,101-020000),1,0,D:\j_MassFlow2D.csv
 
 ## 4. Plot1D window
 
-- **Uppermost label**: Value of the data point nearest to the mouse cursor.
+- **Uppermost label**: Value of the data point nearest to the mouse cursor. For lines of 10,000 points or more it is the point nearest in x (time).
+- **Large data**: Lines of 10,000 points or more are drawn from the lowest and highest value in each pixel column, which looks the same as drawing every point. A plot of several lines of 1,000,000 points each opens in under a second and pans and zooms smoothly. A line whose x goes back (e.g. two runs joined) or that holds NaN or infinite values is drawn point by point as before, which gets slow at about 100,000 points.
 - **Legend** checkbox: Shows or hides the legend.
 - **Legend position** arrows: Set the position of the legend.
 
@@ -291,16 +292,23 @@ Without these, the color scale spans the values of the time step shown.
 ### Component positions
 
 - **Show component no.** checkbox: Labels each component in 2 lines: Primary variable name (e.g. `[h]HeatTrfConv-R`), then component number (e.g. `2541`).
+- **Show meshes** checkbox: Outlines every sub-volume and mesh cell. Off by default.
+- **Show colors** checkbox: On by default. Unchecked, all cells are drawn white with only their outlines and no colorbar; **Show meshes** is then checked and stays checked until colors are shown again.
+- **Order** button: Opens *Draw order (upper one first)*, listing the components (Index from 1, Name) in the order they are drawn; later ones cover earlier ones where they overlap. Select one or more rows (Ctrl/Shift+click) and use **Up**/**Down** to move them one row, **Top**/**Bottom** to move them to either end, or **Sort** to go back to the component list order. The plot is redrawn after each button. Components keep their positions; only which one is drawn on top changes.
 - **Component** dropdown: Selects the component to adjust, listed as `{Primary variable} {component number}` (e.g. `[h]HeatTrfConv-R 2541`) in the same order as in the plot. The last item, `time`, positions the time label.
 - **⚪** button: Resets the selected component.
 - **Width +/−**: Changes the selected component's width by 10% of its original width (10%~1000%).
 - **Height +/−**: Changes the selected component's height by 10% of its original height (10%~1000%).
+- **Angle** button: Opens *Sub-volume angles* for the selected 1-D component (not for mesh items). The scrollable list has one row per sub-volume: its index (from 1) and an editable angle in degrees. Each angle turns that sub-volume relative to the preceding one (+ clockwise), so angles 0, 30, 0, 0 bend the column from sub-volume 2 on and 0, 30, −30, −30 zigzag it. **Save** applies the edited angles and redraws; **Load** shows the angles in use again. Sub-volume 1 is drawn at the bottom of each column.
+- **Axial** button: Opens *Sub-volume axial lengths*, with the same list and **Save**/**Load** buttons, for 1-D components and mesh items. Each length (above 0, default 1) multiplies the height of one sub-volume, or of a whole mesh axial row, so `1, 2, 1, 0.5` doubles sub-volume 2 and halves sub-volume 4. The bottom stays in place, and lengths combine with angles.
+- **Radial** button: Opens *Sub-volume radial widths*, with the same list and buttons. Each width (above 0, default 1) multiplies the width of one 1-D sub-volume, centered on the column's center line, or of one mesh radial column (the list then has one row per radial element, and the left edge stays in place). Widths combine with angles and lengths.
 - **0.5 / 1 / 2 / 10** radio buttons: Step size of the arrow buttons.
 - **↑ ← ↓ →**: Move the selected component one step.
 - **⭯** / **⭮**: Rotate the selected component 5° counterclockwise / clockwise (limited to −180°~180°).
 - **Load** button: Loads component positions from a configuration file (`*.2dcfg`). In files saved before component names included the Primary variable, a component number applies to that component of every Primary variable shown.
-- **Save** button: Saves the component positions to a configuration file (`*.2dcfg`).
+- **Save** button: Saves the component positions to a configuration file (`*.2dcfg`), one line per component in draw order; **Load** takes that line order as the draw order. 1-D components also keep their sub-volume angles after `;ang:`, axial lengths after `;len:` and radial widths after `;wid:`, e.g. `[h]CHF-R 2541,-11.5,0.5,0,1,1;ang:0,30,0,0;len:1,2,1,0.5;wid:1,2,1,0.5`; mesh items get `;len:` and `;wid:` only. Files without them load with angles 0 and lengths and widths 1.
 - **Reset** button: Resets all component positions.
+- **Plot transparency** slider: Makes the component colors and the background of the time stamp transparent, from 0% (opaque, default) to 99%; meshes and component labels stay as they are.
 - **Plot margin** slider: Adjusts the plot margins (1~99%, the same on all sides).
 
 ### Other buttons

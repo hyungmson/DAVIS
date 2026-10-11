@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="h_SurfTemp-R.gif" alt="DAVIS main" width="640">
+  <img src="DAVIS_screen_261011.png" alt="DAVIS main" width="640">
 </p>
 
 # DAVIS

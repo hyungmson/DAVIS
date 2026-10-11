@@ -8,6 +8,8 @@
 
 RELAP5 writes its results as large fixed-width text listings. DAVIS reads such a listing once, organizes every time step by component and variable, and lets you plot, compare, animate and export the results without writing scripts.
 
+📖 **[User guide](userguide.md)**: how to use every window and control.
+
 ## Features
 
 - **Open by menu, `Ctrl+O`, or drag and drop** onto the Variable list window.
@@ -23,6 +25,10 @@ RELAP5 writes its results as large fixed-width text listings. DAVIS reads such a
 ## Performance
 
 The parser reads the file once into a compact byte buffer and decodes lines only as needed. On a 526 MB RELAP5 output (4,001 major edits), loading takes about 15 s, peak memory is about 1 GB, and the app holds about 0.4 GB once the file is loaded. Number parsing is independent of the PC's regional settings.
+
+## Limitations
+
+The RELAP5 output parsing logic was developed by trial and error, by analyzing example outputs created by the author. Therefore, there may be edge cases that cause the parser to fail.
 
 ## Requirements
 
